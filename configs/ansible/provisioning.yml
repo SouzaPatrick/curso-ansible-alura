@@ -1,0 +1,18 @@
+---
+- hosts: all
+  tasks: 
+    - name: 'Task instala o PHP7.4'
+      apt:
+        name: php7.4
+        state: latest
+      become: yes
+    - name: 'Task instala o Apache2'
+      apt:
+        name: apache2
+        state: latest
+      become: yes
+    - name: 'Task instala modphp'
+      apt:
+        name: libapache2-mod-php7.4
+        state: latest
+      become: yes
