@@ -1,4 +1,8 @@
 ---
 - hosts: all
   tasks: 
-    - shell: 'echo hello > /vagrant/world.txt'
+    - name: 'Task instala o PHP5'
+      apt:
+        name: php5
+        state: latest
+      become: yes
