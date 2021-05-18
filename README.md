@@ -91,3 +91,4 @@ Modulo 3:
 ```
 
 Modulo 4:
+- Criar um banco de dados no playbook e tambem um usuario para acessa-lo
