@@ -11,7 +11,22 @@
           - libssh2-php
           - php5-mcrypt
           - mysql-server-5.6
-          - php5-mysql
           - python-mysqldb
+          - php5-mysql
+          - python3-pip
         state: latest
       become: yes
+    
+    - name: 'Cria o banco MySqL'
+      mysql_db:
+        name: wordpress_db
+        login_user: root
+        state: present 
+
+    - name: 'Cria usuario no banco MySqL'
+      mysql_user:
+        login_user: root
+        name: wordpress_user
+        password: '12345'
+        priv: 'wordpress_db.*:ALL' 
+        state: present 
