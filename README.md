@@ -95,3 +95,6 @@ Modulo 4:
 
 Modulo 5:
 - Realizar a o download e instalacao do wordpress
+
+Modulo 6:
+- Criar um servidor especifico para o banco de dados e conectar o wordpress nele
