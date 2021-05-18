@@ -33,21 +33,31 @@ Vagrant.configure("2") do |config|
     end
 
     config.vm.define "ansible" do |ansible|
-        ansible.vm.box = "ubuntu/bionic64"
-        ansible.vm.network "private_network", ip: "172.17.177.39"
-        ansible.vm.provision "shell", inline: $script_init_ansible
-        # ansible.vm.provision "shell", inline: $script_run_ansible
-        ansible.vm.synced_folder "./configs/ansible", "/home/vagrant/configs"
+      ansible.vm.box = "ubuntu/bionic64"
+      ansible.vm.network "private_network", ip: "172.17.177.39"
+      ansible.vm.provision "shell", inline: $script_init_ansible
+      # ansible.vm.provision "shell", inline: $script_run_ansible
+      ansible.vm.synced_folder "./configs/ansible", "/home/vagrant/configs"
     end
 
-    config.vm.define "wordpress" do |m|
-        m.vm.network "private_network", ip: "172.17.177.40"
-        m.vm.provider "virtualbox" do |v|
-            v.memory = 1024
-            v.cpus = 2
-        end
-        m.vm.provision "shell", inline: "cat /vagrant/configs/id_ansible.pub >> .ssh/authorized_keys"
-        m.vm.provision "shell", inline: $script_install_python36
+    config.vm.define "wordpress" do |wordpress|
+      wordpress.vm.network "private_network", ip: "172.17.177.40"
+      wordpress.vm.provider "virtualbox" do |v|
+          v.memory = 1024
+          v.cpus = 2
+      end
+      wordpress.vm.provision "shell", inline: "cat /vagrant/configs/id_ansible.pub >> .ssh/authorized_keys"
+      wordpress.vm.provision "shell", inline: $script_install_python36
+    end
+
+    config.vm.define "mysqldb" do |mysqldb|
+      mysqldb.vm.network "private_network", ip: "172.17.177.41"
+      mysqldb.vm.provider "virtualbox" do |v|
+          v.memory = 1024
+          v.cpus = 2
+      end
+      mysqldb.vm.provision "shell", inline: "cat /vagrant/configs/id_ansible.pub >> .ssh/authorized_keys"
+      mysqldb.vm.provision "shell", inline: $script_install_python36
     end
 
 end

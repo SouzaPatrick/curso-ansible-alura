@@ -1,24 +1,17 @@
 ---
-- hosts: all
+- hosts: database
   handlers:
-    - name: restart apache
+    - name: restart mysql
       service:
-        name: apache2
+        name: mysql
         state: restarted
       become: yes
   tasks: 
     - name: 'Instala pacotes de dependencia para o sitema operacional'
       apt:
         name: 
-          - php5
-          - apache2
-          - libapache2-mod-php5
-          - php5-gd
-          - libssh2-php
-          - php5-mcrypt
           - mysql-server-5.6
           - python-mysqldb
-          - php5-mysql
           - python3-pip
         state: latest
       become: yes
@@ -36,6 +29,43 @@
         password: '12345'
         priv: 'wordpress_db.*:ALL' 
         state: present 
+        host : "{{ item }}"
+      with_items:
+        - 'localhost'
+        - '127.0.0.1'
+        - '172.17.177.41'
+        - '172.17.177.40'
+    
+    - name: 'Copiar aquivo de configuracao do mysql da maquina local para a remota'
+      copy:
+        src: 'files/my.cnf'
+        dest: '/etc/mysql/my.cnf'
+      become: yes
+      notify:
+        - restart mysql
+
+- hosts: wordpress
+  handlers:
+    - name: restart apache
+      service:
+        name: apache2
+        state: restarted
+      become: yes
+  tasks: 
+    - name: 'Instala pacotes de dependencia para o sitema operacional'
+      apt:
+        name: 
+          - php5
+          - apache2
+          - libapache2-mod-php5
+          - php5-gd
+          - libssh2-php
+          - php5-mcrypt
+          - python-mysqldb
+          - php5-mysql
+          - python3-pip
+        state: latest
+      become: yes
     
     - name: 'Realiza o download da versao mais nova do wordpress'
       get_url:
@@ -65,6 +95,7 @@
         - { regex: 'database_name_here', value: 'wordpress_db'}
         - { regex: 'username_here', value: ' wordpress_use'}
         - { regex: 'password_here', value: '12345'}
+        - { regex: 'localhost', value: '172.17.177.40'}
       become: yes
     
     - name: 'Copiar aquivo de configuracao do apache da maquina local para a remota'
