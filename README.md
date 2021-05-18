@@ -47,7 +47,7 @@ ansible-playbook -i ./configs/hosts ./configs/provisioning.yml
 Modulo 3:
 - Voltei a chave privada para a raiz e retirei a sincronizacao, uma vez que, se au apagar a chave ou matar as instancias a chave foi apagada junto
 - Iniciei a maquina como o ubuntu do professor e as mesas configs
-- Melhoramos o playbook para que possa ter um loop e instalar todas as dependencias deuma vez e escrevr pouco
+- Melhoramos o playbook para que possa ter um loop e instalar todas as dependencias deuma vez e escrever pouco
 ```
 ---
 - hosts: all
@@ -67,4 +67,25 @@ Modulo 3:
         - mysql-server-5.6
         - python-mysqldb
         - php5-mysql
+```
+- Tive que instalar o python 3.6, uma vez que, a maquina ubuntu/trusty64 veio com o 3.4 e era muito antigo para usar o ansible
+- Melhoramos ainda mais o playbook pois a outra forma com 'with_items' foi descontinuada
+```
+---
+- hosts: all
+  tasks: 
+    - name: 'Instala pacotes de dependencia para o sitema operacional'
+      apt:
+        name: 
+          - php5
+          - apache2
+          - libapache2-mod-php5
+          - php5-gd
+          - libssh2-php
+          - php5-mcrypt
+          - mysql-server-5.6
+          - php5-mysql
+          - python-mysqldb
+        state: latest
+      become: yes
 ```
