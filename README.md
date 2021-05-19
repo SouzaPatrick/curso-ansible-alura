@@ -101,3 +101,8 @@ Modulo 6:
 
 Modulo 7:
 - Criar variaveis de ambiente para deixar o codigo mais limpo
+- Usar o Jinja2 com o uso de templates
+- Reintalar o wordpress agr o 5.0 para que o wordpress rode, ja que a ultima versao nao aceita mais o php 5.5.9 que eh o instalado no curso
+
+Modulo 8:
+- Separar os codigos de forma que possam ser reaporveitados, atraves de roles

@@ -1,0 +1,34 @@
+---
+- name: 'Instala pacotes de dependencia para o sitema operacional'
+  apt:
+    name: 
+      - mysql-server-5.6
+      - python-mysqldb
+      - python3-pip
+    state: latest
+  become: yes
+
+- name: 'Cria o banco MySqL'
+  mysql_db:
+    name: "{{ wp_db_name }}"
+    login_user: root
+    state: present 
+
+- name: 'Cria usuario no banco MySqL'
+  mysql_user:
+    login_user: root
+    name: "{{ wp_username }}"
+    password: "{{ wp_user_password }}"
+    priv: "{{ wp_db_name }}.*:ALL"
+    state: present 
+    host : "{{ item }}"
+  with_items:
+    - "{{ wp_host_ip }}"
+
+- name: 'Copiar aquivo de configuracao do mysql da maquina local para a remota'
+  copy:
+    src: 'files/my.cnf'
+    dest: '/etc/mysql/my.cnf'
+  become: yes
+  notify:
+    - restart mysql
