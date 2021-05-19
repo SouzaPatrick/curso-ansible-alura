@@ -98,3 +98,6 @@ Modulo 5:
 
 Modulo 6:
 - Criar um servidor especifico para o banco de dados e conectar o wordpress nele
+
+Modulo 7:
+- Criar variaveis de ambiente para deixar o codigo mais limpo
